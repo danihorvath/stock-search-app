@@ -4,6 +4,7 @@ import { useReducer } from "react";
 import { SearchResult } from "@/types/Search";
 import CardList from "@/components/CardList";
 import { toast } from "react-toastify";
+import PageHeader from "@/components/PageHeader";
 
 export type State = {
   value: string;
@@ -43,7 +44,7 @@ export default function Home() {
 
   return (
     <main className="text-black">
-      <div className="flex flex-col items-center justify-between p-20 bg-gray-800">
+      <PageHeader title="Search Stocks">
         <SearchField
           value={state.value}
           results={state.results}
@@ -53,7 +54,7 @@ export default function Home() {
           }}
           loading={state.loading}
         />
-      </div>
+      </PageHeader>
       {state.showCards && (
         <CardList results={state.results} value={state.value} />
       )}

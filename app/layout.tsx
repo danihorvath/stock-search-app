@@ -21,8 +21,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <GlobalAlert />
-        {children}
         <ToastContainer position="bottom-right" theme="colored" />
+        {children}
       </body>
     </html>
   );

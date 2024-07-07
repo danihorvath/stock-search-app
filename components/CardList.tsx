@@ -1,5 +1,6 @@
 import { SearchResult } from "@/types/Search";
 import React from "react";
+import Link from "next/link";
 
 interface CardListProps {
   results: SearchResult[];
@@ -12,24 +13,35 @@ const CardList = ({ results, value }: CardListProps) => {
       <h2 className="text-2xl font-bold mb-4 text-white">
         Results for "{value}"
       </h2>
-      <div className="grid grid-cols-3 gap-4 ">
+      <div className="grid grid-cols-3 gap-4">
         {results.map((result, index) => (
-          <div key={index} className="bg-gray-300 p-4 shadow-md rounded-md">
-            <div className="bg-blue-500 text-white text-center py-2 mb-2 rounded-md">
-              <h3 className="text-lg font-bold">{result.ticker}</h3>
-              <p>{result.name}</p>
-            </div>
+          <Link href={`/${result.ticker}`}>
+            <div
+              key={index}
+              className="cursor-pointer bg-gray-300 hover:bg-gray-200 p-4 shadow-md rounded-md"
+            >
+              <div className="bg-blue-500 text-white text-center p-2 mb-2 rounded-md">
+                <h3 className="text-lg font-bold cursor-pointer">
+                  {result.ticker}
+                </h3>
+                <p className="text-nowrap	text-ellipsis overflow-hidden cursor-pointer">
+                  {result.name}
+                </p>
+              </div>
 
-            <p>Locale: {result.locale}</p>
-            <p>Primary Exchange: {result.primary_exchange}</p>
-            <p>Type: {result.type}</p>
-            <p>Active: {result.active ? "Yes" : "No"}</p>
-            <p>Currency Name: {result.currency_name}</p>
-            <p>CIK: {result.cik}</p>
-            <p>Composite FIGI: {result.composite_figi}</p>
-            <p>Share Class FIGI: {result.share_class_figi}</p>
-            <p>Last Updated UTC: {result.last_updated_utc}</p>
-          </div>
+              <p className="cursor-pointer">
+                Locale: {result.locale}
+                <br />
+                Primary Exchange: {result.primary_exchange}
+                <br />
+                Type: {result.type}
+                <br />
+                Currency: {result.currency_name}
+                <br />
+                Last Updated UTC: {result.last_updated_utc}
+              </p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
