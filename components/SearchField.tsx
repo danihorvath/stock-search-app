@@ -47,7 +47,14 @@ const SearchField = () => {
 
   return (
     <div className="w-full relative" ref={ref}>
-      <div className="flex">
+      <form
+        className="flex"
+        onSubmit={(e) => {
+          e.preventDefault();
+          setFocus(false);
+          router.push(`/?search=${value}`);
+        }}
+      >
         <input
           type="text"
           value={value}
@@ -58,14 +65,11 @@ const SearchField = () => {
         />
         <button
           className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-          onClick={() => {
-            setFocus(false);
-            router.push(`/?search=${value}`);
-          }}
+          type="submit"
         >
           Search
         </button>
-      </div>
+      </form>
 
       {focus && value.length >= 3 && (
         <ul className="mt-2 bg-white border border-gray-300 rounded-md shadow-md absolute w-full">
@@ -87,6 +91,7 @@ const SearchField = () => {
                   className="px-4 py-2 hover:bg-gray-100"
                   onClick={() => {
                     setFocus(false);
+                    router.push(`/?search=${value}`);
                   }}
                 >
                   Show all results ({results.length})

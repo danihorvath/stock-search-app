@@ -6,9 +6,12 @@ export type StockPageParams = {
   params: { stock: string };
 };
 
-async function getData(stock: string): Promise<DetailsResponse> {
-  const response = await fetch(`${process.env.URL}/api/stock/${stock}`);
-  return response.json();
+import axios from "axios";
+
+function getData(stock: string): Promise<DetailsResponse> {
+  return axios
+    .get(`${process.env.URL}/api/stock/${stock}`)
+    .then((response) => response.data);
 }
 
 export default async function Stock({ params: { stock } }: StockPageParams) {

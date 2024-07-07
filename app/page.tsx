@@ -2,15 +2,16 @@ import SearchField from "@/components/SearchField";
 import { SearchResponse, SearchResult } from "@/types/Search";
 import CardList from "@/components/CardList";
 import PageHeader from "@/components/PageHeader";
-import { useSearchParams } from "next/navigation";
+import axios from "axios";
 
 export type HomePageParams = {
   searchParams: { search: string };
 };
 
-async function getData(search: string): Promise<SearchResponse> {
-  const response = await fetch(`${process.env.URL}/api/stock?search=${search}`);
-  return response.json();
+function getData(search: string): Promise<SearchResponse> {
+  return axios
+    .get(`${process.env.URL}/api/stock?search=${search}`)
+    .then((response) => response.data);
 }
 
 export default async function Home({

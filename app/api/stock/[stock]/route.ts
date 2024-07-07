@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SearchResponse } from "@/types/Search";
+import { Info, History } from "@/types/Details";
 import moment from "moment";
 
 const from = moment().subtract(2, "month").format("YYYY-MM-DD");
@@ -9,20 +9,20 @@ export function GET(
   request: Request,
   { params }: { params: { stock: string } }
 ) {
+  const ticker = params.stock.toUpperCase();
   return axios
     .all([
-      axios.get<SearchResponse>(
-        `${process.env
-          .POLYGON_API_URL!}/v3/reference/tickers/${params.stock.toUpperCase()}`,
+      axios.get(
+        `${process.env.POLYGON_API_URL!}/v3/reference/tickers/${ticker}`,
         {
           params: {
             apiKey: process.env.POLYGON_API_KEY,
           },
         }
       ),
-      axios.get<SearchResponse>(
+      axios.get(
         `${process.env
-          .POLYGON_API_URL!}/v2/aggs/ticker/${params.stock.toUpperCase()}/range/1/day/${from}/${to}`,
+          .POLYGON_API_URL!}/v2/aggs/ticker/${ticker}/range/1/day/${from}/${to}`,
         {
           params: {
             apiKey: process.env.POLYGON_API_KEY,
