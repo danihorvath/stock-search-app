@@ -39,9 +39,11 @@ const Component = ({ data }: ChartProps) => {
   }, [options]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-16 m-12 bg-gray-800 shadow-md rounded-lg">
-      <h3 className="text-2xl text-white mb-10">Historical Stock Prices</h3>
-      <div id={GRAPH_ID} className="w-full"></div>
+    <div className="flex justify-center">
+      <div className="container flex flex-col items-center justify-center px-4 py-10 m-4 bg-gray-800 shadow-md rounded-xl">
+        <h3 className="text-2xl text-white mb-10">Historical Stock Prices</h3>
+        <div id={GRAPH_ID} className="w-full"></div>
+      </div>
     </div>
   );
 };

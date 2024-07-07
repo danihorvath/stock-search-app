@@ -20,7 +20,7 @@ export default async function Stock({ params: { stock } }: StockPageParams) {
     <main className="text-black">
       <PageHeader title={info.ticker} subtitle={info.name} goBack="/">
         <p className="text-white mb-8">{info.description}</p>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           {[
             `Primary exchange: ${info.primary_exchange}`,
             `Market cap: ${
