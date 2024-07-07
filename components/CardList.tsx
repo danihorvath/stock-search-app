@@ -11,15 +11,12 @@ const CardList = ({ results, value }: CardListProps) => {
   return (
     <div className="p-20">
       <h2 className="text-2xl font-bold mb-4 text-white">
-        Results for "{value}"
+        Results for &quot;{value}&quot;
       </h2>
       <div className="grid grid-cols-3 gap-4">
         {results.map((result, index) => (
-          <Link href={`/${result.ticker}`}>
-            <div
-              key={index}
-              className="cursor-pointer bg-gray-300 hover:bg-gray-200 p-4 shadow-md rounded-md"
-            >
+          <Link href={`/${result.ticker}`} key={index}>
+            <div className="cursor-pointer bg-gray-300 hover:bg-gray-200 p-4 shadow-md rounded-md">
               <div className="bg-blue-500 text-white text-center p-2 mb-2 rounded-md">
                 <h3 className="text-lg font-bold cursor-pointer">
                   {result.ticker}

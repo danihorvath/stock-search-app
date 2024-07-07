@@ -1,6 +1,6 @@
 "use client";
 import { History } from "@/types/Details";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import lineWithCandleStick from "@/utils/chartConfigs/lineWithCandleStick";
 
 const GRAPH_ID = "line-with-candlestick";
@@ -10,22 +10,25 @@ interface ChartProps {
 }
 
 const Component = ({ data }: ChartProps) => {
-  const options = {
-    ...lineWithCandleStick,
-    series: [
-      {
-        type: "line",
-        data: [
-          [data[0].t, data[0].c],
-          [data[data.length - 1].t, data[data.length - 1].c],
-        ],
-      },
-      {
-        type: "candlestick",
-        data: data.map((item) => [item.t, item.o, item.h, item.l, item.c]),
-      },
-    ],
-  };
+  const options = useMemo(
+    () => ({
+      ...lineWithCandleStick,
+      series: [
+        {
+          type: "line",
+          data: [
+            [data[0].t, data[0].c],
+            [data[data.length - 1].t, data[data.length - 1].c],
+          ],
+        },
+        {
+          type: "candlestick",
+          data: data.map((item) => [item.t, item.o, item.h, item.l, item.c]),
+        },
+      ],
+    }),
+    [data]
+  );
 
   useEffect(() => {
     (async () => {
@@ -33,7 +36,7 @@ const Component = ({ data }: ChartProps) => {
       const chart = new ApexCharts(document.getElementById(GRAPH_ID), options);
       chart.render();
     })();
-  }, []);
+  }, [options]);
 
   return (
     <div className="flex flex-col items-center justify-center p-16 m-12 bg-gray-800 shadow-md rounded-lg">

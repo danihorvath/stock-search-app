@@ -29,7 +29,10 @@ export default async function Stock({ params: { stock } }: StockPageParams) {
             `Employees: ${info.total_employees}`,
             `List date: ${info.list_date}`,
           ].map((item) => (
-            <div className="bg-gray-400 px-4 py-1 shadow-md rounded-md">
+            <div
+              key={item}
+              className="bg-gray-400 px-4 py-1 shadow-md rounded-md"
+            >
               {item}
             </div>
           ))}
