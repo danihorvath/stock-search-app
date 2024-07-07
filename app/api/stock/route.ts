@@ -4,7 +4,7 @@ import { SearchResponse } from "@/types/Search";
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   return axios
-    .get<SearchResponse>(
+    .get<{ results: SearchResponse }>(
       `${process.env.POLYGON_API_URL!}/v3/reference/tickers`,
       {
         params: {

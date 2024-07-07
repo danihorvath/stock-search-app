@@ -13,6 +13,4 @@ export type SearchResult = {
   last_updated_utc: string;
 };
 
-export type SearchResponse = {
-  results: SearchResult[];
-};
+export type SearchResponse = SearchResult[];
