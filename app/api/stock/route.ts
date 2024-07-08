@@ -1,20 +1,18 @@
 import axios from "axios";
 import { SearchResponse } from "@/types/Search";
+import polygonAxiosConfig from "@/utils/polygonAxiosConfig";
 
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   return axios
-    .get<{ results: SearchResponse }>(
-      `${process.env.POLYGON_API_URL!}/v3/reference/tickers`,
-      {
-        params: {
-          search: searchParams.get("search"),
-          active: true,
-          market: "stocks",
-          apiKey: process.env.POLYGON_API_KEY,
-        },
-      }
-    )
+    .get<{ results: SearchResponse }>(`/v3/reference/tickers`, {
+      ...polygonAxiosConfig,
+      params: {
+        search: searchParams.get("search"),
+        active: true,
+        market: "stocks",
+      },
+    })
     .then((response) => {
       return Response.json(response.data.results);
     })

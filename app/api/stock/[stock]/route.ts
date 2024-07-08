@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import polygonAxiosConfig from "@/utils/polygonAxiosConfig";
 
 const from = moment().subtract(2, "month").format("YYYY-MM-DD");
 const to = moment().format("YYYY-MM-DD");
@@ -11,22 +12,10 @@ export function GET(
   const ticker = params.stock.toUpperCase();
   return axios
     .all([
+      axios.get(`/v3/reference/tickers/${ticker}`, polygonAxiosConfig),
       axios.get(
-        `${process.env.POLYGON_API_URL!}/v3/reference/tickers/${ticker}`,
-        {
-          params: {
-            apiKey: process.env.POLYGON_API_KEY,
-          },
-        }
-      ),
-      axios.get(
-        `${process.env
-          .POLYGON_API_URL!}/v2/aggs/ticker/${ticker}/range/1/day/${from}/${to}`,
-        {
-          params: {
-            apiKey: process.env.POLYGON_API_KEY,
-          },
-        }
+        `/v2/aggs/ticker/${ticker}/range/1/day/${from}/${to}`,
+        polygonAxiosConfig
       ),
     ])
     .then(
