@@ -1,13 +1,14 @@
 "use client";
-import React, { useRef, useReducer } from "react";
+import React, { useReducer, useEffect, LegacyRef } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useOnClickOutside } from "usehooks-ts";
+import { useThrottle, useClickAway } from "@uidotdev/usehooks";
 
 import Button from "./Button";
 import Spinner from "./Spinner";
 import { SearchResult } from "@/types/Search";
+import { throttle } from "lodash";
 
 export type State = {
   value: string;
@@ -45,19 +46,24 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const SearchField = () => {
-  const ref = useRef(null);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { value, results, loading, focus } = state;
   const router = useRouter();
+  const { value, results, loading, focus } = state;
+  const throttledValue = useThrottle(value, 1000);
+  const ref = useClickAway(() => {
+    setFocus(false);
+  }) as LegacyRef<HTMLDivElement>;
 
   const setFocus = (payload: boolean) => dispatch({ type: "FOCUS", payload });
   const setLoading = (payload: boolean) =>
     dispatch({ type: "LOADING", payload });
 
-  useOnClickOutside(ref, () => setFocus(false));
-
   const onChange = (value: string) => {
+    setLoading(true);
     dispatch({ type: "SET_VALUE", payload: value });
+  };
+
+  useEffect(() => {
     if (value.length >= 3) {
       setLoading(true);
       axios
@@ -71,7 +77,7 @@ const SearchField = () => {
           setLoading(false);
         });
     } else dispatch({ type: "SET_RESULTS", payload: [] });
-  };
+  }, [throttledValue]);
 
   return (
     <div className="relative text-black" ref={ref}>
@@ -95,7 +101,7 @@ const SearchField = () => {
       </form>
 
       {focus && value.length >= 3 && (
-        <ul className="mt-2 bg-white border border-gray-300 rounded-md shadow-md absolute w-full">
+        <ul className="mt-2 bg-white border border-gray-200 rounded-md shadow-md absolute w-full">
           {loading ? (
             <Spinner />
           ) : (
@@ -111,7 +117,7 @@ const SearchField = () => {
               ))}
               {results.length > 5 && (
                 <li
-                  className="px-4 py-2 hover:bg-gray-100"
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-center"
                   onClick={() => {
                     setFocus(false);
                     router.push(`/?search=${value}`);
@@ -121,7 +127,7 @@ const SearchField = () => {
                 </li>
               )}
               {!results.length && (
-                <li className="px-4 py-2 bg-gray-200">No results. :(</li>
+                <li className="px-4 py-2 text-center">No results. :(</li>
               )}
             </>
           )}
