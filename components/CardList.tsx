@@ -1,6 +1,6 @@
-import { SearchResult } from "@/types/Search";
 import React from "react";
 import Link from "next/link";
+import { SearchResult } from "@/types/Search";
 
 interface CardListProps {
   results: SearchResult[];
@@ -9,7 +9,7 @@ interface CardListProps {
 
 const CardList = ({ results, value }: CardListProps) => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center text-black">
       <div className="container my-20 p-4">
         <h2 className="text-2xl font-bold mb-4 text-white">
           Results for &quot;{value}&quot;

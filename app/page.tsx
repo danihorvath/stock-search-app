@@ -1,8 +1,8 @@
-import SearchField from "@/components/SearchField";
-import { SearchResponse, SearchResult } from "@/types/Search";
+import axios from "axios";
 import CardList from "@/components/CardList";
 import PageHeader from "@/components/PageHeader";
-import axios from "axios";
+import SearchField from "@/components/SearchField";
+import { SearchResponse } from "@/types/Search";
 
 export type HomePageParams = {
   searchParams: { search: string };
@@ -19,7 +19,7 @@ export default async function Home({
 }: HomePageParams) {
   const results = search ? await getData(search) : null;
   return (
-    <main className="text-black">
+    <main>
       <PageHeader title="Search Stocks">
         <SearchField />
       </PageHeader>

@@ -1,54 +1,82 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { SearchResult } from "@/types/Search";
-import { useOnClickOutside } from "usehooks-ts";
-import Spinner from "./Spinner";
-import { useReducer } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
+import React, { useRef, useReducer } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useOnClickOutside } from "usehooks-ts";
+
+import Button from "./Button";
+import Spinner from "./Spinner";
+import { SearchResult } from "@/types/Search";
 
 export type State = {
   value: string;
   results: SearchResult[];
   loading: boolean;
+  focus: boolean;
 };
 
 type Action =
   | { type: "SET_VALUE"; payload: string }
   | { type: "SET_RESULTS"; payload: SearchResult[] }
-  | { type: "LOADING"; payload: boolean };
+  | { type: "LOADING"; payload: boolean }
+  | { type: "FOCUS"; payload: boolean };
+
+const initialState: State = {
+  value: "",
+  results: [],
+  loading: false,
+  focus: false,
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "SET_VALUE":
+      return { ...state, value: action.payload };
+    case "SET_RESULTS":
+      return { ...state, results: action.payload };
+    case "LOADING":
+      return { ...state, loading: action.payload };
+    case "FOCUS":
+      return { ...state, focus: action.payload };
+    default:
+      return state;
+  }
+};
 
 const SearchField = () => {
-  const [focus, setFocus] = useState(false);
   const ref = useRef(null);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { value, results, loading } = state;
+  const { value, results, loading, focus } = state;
   const router = useRouter();
+
+  const setFocus = (payload: boolean) => dispatch({ type: "FOCUS", payload });
+  const setLoading = (payload: boolean) =>
+    dispatch({ type: "LOADING", payload });
 
   useOnClickOutside(ref, () => setFocus(false));
 
   const onChange = (value: string) => {
     dispatch({ type: "SET_VALUE", payload: value });
     if (value.length >= 3) {
-      dispatch({ type: "LOADING", payload: true });
+      setLoading(true);
       axios
         .get<SearchResult[]>("/api/stock", { params: { search: value } })
         .then((response) => {
           dispatch({ type: "SET_RESULTS", payload: response.data });
-          dispatch({ type: "LOADING", payload: false });
+          setLoading(false);
         })
         .catch((error) => {
           toast(error.message, { type: "error" });
-          dispatch({ type: "LOADING", payload: false });
+          setLoading(false);
         });
     } else dispatch({ type: "SET_RESULTS", payload: [] });
   };
 
   return (
-    <div className="w-full relative" ref={ref}>
+    <div className="relative text-black" ref={ref}>
       <form
-        className="flex"
+        className="flex gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           setFocus(false);
@@ -58,17 +86,12 @@ const SearchField = () => {
         <input
           type="text"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
           placeholder="Start typing..."
-          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2"
+          className="w-full rounded-md p-2 focus:outline-none focus:ring-2"
+          onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocus(true)}
         />
-        <button
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-          type="submit"
-        >
-          Search
-        </button>
+        <Button type="submit">Search</Button>
       </form>
 
       {focus && value.length >= 3 && (
@@ -106,25 +129,6 @@ const SearchField = () => {
       )}
     </div>
   );
-};
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "SET_VALUE":
-      return { ...state, value: action.payload };
-    case "SET_RESULTS":
-      return { ...state, results: action.payload };
-    case "LOADING":
-      return { ...state, loading: action.payload };
-    default:
-      return state;
-  }
-};
-
-const initialState: State = {
-  value: "",
-  results: [],
-  loading: false,
 };
 
 export default SearchField;

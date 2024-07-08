@@ -1,6 +1,6 @@
-import { SearchResult } from "@/types/Search";
 import React from "react";
 import Link from "next/link";
+import Button from "./Button";
 
 interface PageHeaderProps {
   title?: string;
@@ -15,9 +15,7 @@ const PageHeader = ({ title, subtitle, children, goBack }: PageHeaderProps) => {
       <div className="container">
         {!!goBack && (
           <Link href={"/"} className="self-start mb-8">
-            <button className="text-white bg-blue-500 hover:bg-blue-700  font-bold py-2 px-4 rounded">
-              Go Back
-            </button>
+            <Button>Go Back</Button>
           </Link>
         )}
 

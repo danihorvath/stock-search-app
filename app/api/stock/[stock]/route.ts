@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Info, History } from "@/types/Details";
 import moment from "moment";
 
 const from = moment().subtract(2, "month").format("YYYY-MM-DD");

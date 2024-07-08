@@ -1,6 +1,6 @@
 "use client";
-import { History } from "@/types/Details";
 import { useEffect, useMemo } from "react";
+import { History } from "@/types/Details";
 import lineWithCandleStick from "@/utils/chartConfigs/lineWithCandleStick";
 
 const GRAPH_ID = "line-with-candlestick";
