@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Test 1`] = `
+<div>
+  <div
+    class="bg-yellow-400 p-3"
+  >
+    <p
+      class="text-yellow-900"
+    >
+      This site is using a free Polygon API key, which has a maximum limit of 5 requests per minute. If you see a 429 error, please wait a minute.
+    </p>
+  </div>
+</div>
+`;

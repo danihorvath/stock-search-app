@@ -8,7 +8,6 @@ import { useThrottle, useClickAway } from "@uidotdev/usehooks";
 import Button from "./Button";
 import Spinner from "./Spinner";
 import { SearchResult } from "@/types/Search";
-import { throttle } from "lodash";
 
 export type State = {
   value: string;
@@ -64,10 +63,12 @@ const SearchField = () => {
   };
 
   useEffect(() => {
-    if (value.length >= 3) {
+    if (throttledValue.length >= 3) {
       setLoading(true);
       axios
-        .get<SearchResult[]>("/api/stock", { params: { search: value } })
+        .get<SearchResult[]>("/api/stock", {
+          params: { search: throttledValue },
+        })
         .then((response) => {
           dispatch({ type: "SET_RESULTS", payload: response.data });
           setLoading(false);

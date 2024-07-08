@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Test 1`] = `
+<div>
+  <button
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+    type="submit"
+  >
+    Submit
+  </button>
+</div>
+`;

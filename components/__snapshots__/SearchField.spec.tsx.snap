@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Test 1`] = `
+<div>
+  <div
+    class="relative text-black"
+  >
+    <form
+      class="flex gap-2"
+    >
+      <input
+        class="w-full rounded-md p-2 focus:outline-none focus:ring-2"
+        placeholder="Start typing..."
+        type="text"
+        value=""
+      />
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+        type="submit"
+      >
+        Search
+      </button>
+    </form>
+  </div>
+</div>
+`;
