@@ -24,7 +24,7 @@ export default {
         const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
         const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
         return (
-          '<div class="apexcharts-tooltip-candlestick p-2">' +
+          '<div class="apexcharts-tooltip-candlestick text-black p-2">' +
           '<div>Open: <span class="value">' +
           o +
           "</span></div>" +
